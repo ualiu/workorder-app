@@ -26,7 +26,19 @@ const workOrderSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Customer',
     required: true
+  },
+  workOrderNumber: {
+    type: Number,
+    required: false,
+    unique: true
   }
+});
+
+workOrderSchema.pre('save', function (next) {
+  if (!this.workOrderNumber) {
+    this.workOrderNumber = Math.floor(Math.random() * 1000) + 1;
+  }
+  next();
 });
 
 module.exports = mongoose.model('WorkOrder', workOrderSchema);

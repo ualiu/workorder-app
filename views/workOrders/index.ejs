@@ -11,6 +11,7 @@
   <table>
     <thead>
       <tr>
+        <th>Work order number</th>
         <th>Description</th>
         <th>Status</th>
         <th>Technician</th>
@@ -20,10 +21,11 @@
     <tbody>
       <% workOrders.forEach(workOrder => { %>
         <tr>
+          <td><%= workOrder.workOrderNumber %></td>
           <td><%= workOrder.description %></td>
           <td><%= workOrder.status %></td>
           <td><%= workOrder.technician %></td>
-          <td><%= workOrder.createdAt %></td>
+          <td><%= moment(workOrder.createdAt).format('MMM D, YYYY') %></td>
           <td>
             <a href="/api/workOrders/<%= workOrder._id %>" class="btn btn-primary btn-sm">View</a>
             <a href="/api/workOrders/<%= workOrder._id %>/edit" class="btn btn-warning btn-sm">Edit</a>
@@ -32,6 +34,7 @@
       <% }) %>
     </tbody>
   </table>
-  <button><a href="/api/customers">Customers Page</a></button>
+  <button><a href="/api/workOrders/customers/<%= customer._id %>/new">Add new work order</a></button>
+  <button><a href="/api/customers">Return to Customers Page</a></button>
 </body>
 </html>

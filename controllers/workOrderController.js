@@ -1,5 +1,6 @@
 const WorkOrder = require('../models/workOrderModel');
 const Customer = require('../models/customerModel')
+const moment = require('moment');
 
 
 exports.getWorkOrdersByCustomerId = async (req, res) => {
@@ -11,7 +12,11 @@ exports.getWorkOrdersByCustomerId = async (req, res) => {
     if (numOrders === 0) {
       res.render('workOrders/noOrders', { customer });
     } else {
-      res.render('workOrders/index', { customer, workOrders, numOrders });
+      // Format the date in each work order using moment.js
+      workOrders.forEach(order => {
+        order.createdAt = moment(order.createdAt).format('MMM D, YYYY');
+      });
+      res.render('workOrders/index', { customer, workOrders, numOrders, moment });
     }
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -61,7 +66,7 @@ exports.showCustomerDetails = async (req, res) => {
     if (!customer) {
       return res.status(404).json({ message: 'Customer not found' });
     } else {
-      res.render('workOrders/index', { customer, workOrders, numOrders });
+      res.render('workOrders/index', { customer, workOrders, numOrders, moment });
     }
 
   } catch (err) {
@@ -83,8 +88,9 @@ exports.getAllWorkOrders = async (req, res) => {
 
 exports.getWorkOrderById = async (req, res) => {
   try {
-    const workOrder = await WorkOrder.findById(req.params.id).populate('customer').populate('technician');
+    const workOrder = await WorkOrder.findById(req.params.id);
     if (workOrder) {
+      //redirect to show.ejs page and populate WO details in a table
       res.json(workOrder);
     } else {
       res.status(404).json({ message: 'Work order not found' });
