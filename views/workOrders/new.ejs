@@ -1,0 +1,23 @@
+<h1>Create Work Order for <%= customer.name %></h1>
+
+<form action="/api/workOrders/customers/<%= customer._id %>/create" method="POST">
+  
+  <div>
+    <label for="title">Title</label>
+    <input type="text" name="title" id="title" required>
+  </div>
+  <div>
+    <label for="description">Description</label>
+    <textarea name="description" id="description" required></textarea>
+  </div>
+  <div>
+    <label for="status">Status</label>
+    <select name="status" id="status" required>
+      <option value="Open">Open</option>
+      <option value="In Progress">In Progress</option>
+      <option value="Completed">Completed</option>
+    </select>
+  </div>
+  <input type="hidden" name="customerId" value="<%= customer._id %>">
+  <button type="submit">Create Work Order</button>
+</form>

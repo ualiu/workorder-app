@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Customers</title>
+</head>
+<body>
+  <h1>Customers</h1>
+  <h2>There are <%= numOfCustomers %> Customers in your database</h2>
+
+  <nav>
+    <ul>
+      <li><a href="/api/customers">All Customers</a></li>
+      <li><a href="/api/customers/new">New Customer</a></li>
+    </ul>
+  </nav>
+
+  <form action="/api/customers" method="GET">
+    <input type="text" name="search" placeholder="Search...">
+    <button type="submit">Search</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% customers.forEach(customer => { %>
+        <tr>
+          <td><%= customer.name %></td>
+          <td><%= customer.phone %></td>
+          <td><%= customer.email %></td>
+          <td>
+            <a href="/api/workOrders/customers/<%= customer._id %>/work-orders">Show</a>
+            <a href="/api/customers/<%= customer._id %>/edit">Edit</a>
+            <form action="/api/customers/<%= customer._id %>?_method=DELETE" method="POST">
+              <button type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <button><a href="/">Main Page</a></button>
+</body>
+</html>

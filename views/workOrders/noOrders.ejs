@@ -1,0 +1,7 @@
+<h1>No work orders found for <%= customer.name %></h1>
+<p>Would you like to create a new work order?</p>
+<form action="/api/workOrders/customers/<%= customer._id %>/new" method="GET">
+  <input type="hidden" name="customerId" value="<%= customer._id %>">
+  <button type="submit">Yes</button>
+</form>
+<a href="/api/customers" class="btn btn-secondary">No</a>

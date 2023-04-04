@@ -1,0 +1,26 @@
+<h1>Edit Work Order for WO#ID<%= workOrder._id %></h1>
+<h1>Edit Work Order for CU#ID<%= customer._id %></h1>
+
+<form action="/api/workOrders/customers/<%= customer._id %>/workOrders/<%= workOrder._id %>/edit" method="post">
+  <input type="hidden" name="_method" value="post">
+  <div>
+    <input type="hidden" name="customer._id" value="<%= customer._id %>">
+    <label for="title">Title</label>
+    <input type="text" name="title" id="title" value="<%= workOrder.title %>" required>
+  </div>
+  <div>
+    <label for="description">Description</label>
+    <textarea name="description" id="description" required><%= workOrder.description %></textarea>
+  </div>
+  <div>
+    <label for="status">Status</label>
+    <select name="status" id="status" required>
+      <option value="Open" <%= workOrder.status === 'Open' ? 'selected' : '' %>>Open</option>
+      <option value="In Progress" <%= workOrder.status === 'In Progress' ? 'selected' : '' %>>In Progress</option>
+      <option value="Completed" <%= workOrder.status === 'Completed' ? 'selected' : '' %>>Completed</option>
+    </select>
+  </div>
+  <input type="hidden" name="customer._id" value="<%= customer._id %>">
+  <button type="submit">Update Work Order</button>
+  <button><a href="/api/customers">Customers Page</a></button>
+</form>
