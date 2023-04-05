@@ -54,6 +54,16 @@ exports.createCustomer = async (req, res) => {
   }
 };
 
+exports.editCustomerForm = async (req, res) => {
+  try {
+    const customer = await Customer.findById(req.params.id);
+    res.render('customers/edit', { customer });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
 exports.updateCustomer = async (req, res) => {
   try {
     const customer = await Customer.findById(req.params.id);
@@ -65,7 +75,7 @@ exports.updateCustomer = async (req, res) => {
       customer.notes = req.body.notes || customer.notes;
 
       const updatedCustomer = await customer.save();
-      res.json(updatedCustomer);
+      res.redirect(`/api/customers`);
     } else {
       res.status(404).json({ message: 'Customer not found' });
     }

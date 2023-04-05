@@ -80,7 +80,7 @@ exports.showCustomerDetails = async (req, res) => {
 exports.getAllWorkOrders = async (req, res) => {
   try {
     const workOrders = await WorkOrder.find().populate('customer').populate('technician');
-    res.json(workOrders);
+    res.render('index', { workOrders });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
