@@ -90,8 +90,9 @@ exports.getWorkOrderById = async (req, res) => {
   try {
     const workOrder = await WorkOrder.findById(req.params.id);
     if (workOrder) {
+      const customer = await Customer.findById(workOrder.customerId);
       //redirect to show.ejs page and populate WO details in a table
-      res.json(workOrder);
+      res.render('workOrders/show', { workOrder, customer });
     } else {
       res.status(404).json({ message: 'Work order not found' });
     }
@@ -100,20 +101,24 @@ exports.getWorkOrderById = async (req, res) => {
   }
 };
 
+
 exports.createWorkOrder = async (req, res) => {
   console.log(req.body);
   try {
-    const { customerId, title, description, status } = req.body;
+    const { customerId, itemType, brand, description, status, cost } = req.body;
     const customer = await Customer.findById(req.params.customerId);
+    const formattedCost = parseFloat(req.body.cost)
 
     if (!customer) {
       return res.status(404).json({ message: 'Customer not found' });
     }
 
     const workOrder = await WorkOrder.create({
-      title,
+      itemType,
+      brand,
       description,
       status,
+      cost,
       customerId, // use the correct property name
     });
 

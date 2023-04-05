@@ -9,13 +9,13 @@
 </head>
 <body>
   <div class="container mt-5">
-    <h1 class="mb-4">Customers</h1>
-    <h2 class="mb-4">You have <%= numOfCustomers %> Customers in your database</h2>
+    <h1 class="mb-4">Here's your customer list</h1>
+    <h2 class="mb-4">There are <%= numOfCustomers %> Customers in your list</h2>
 
     <div class="row mb-3">
       <div class="col-8">
         <form action="/api/customers" method="GET" class="d-flex">
-          <input type="text" name="search" placeholder="Search..." class="form-control me-2">
+          <input type="text" name="search" placeholder="Search by name, email, or phone number" class="form-control me-2">
           <button type="submit" class="btn btn-primary">Search</button>
         </form>
       </div>

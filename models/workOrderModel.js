@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
 
 const workOrderSchema = new mongoose.Schema({
-  title: {
+  itemType: {
+    type: String,
+    required: true
+  },
+  brand: {
     type: String,
     required: true
   },
@@ -13,6 +17,10 @@ const workOrderSchema = new mongoose.Schema({
     type: String,
     enum: ['Open', 'In Progress', 'Completed'],
     required: true
+  },
+  cost: {
+    type: Number,
+    required: true,
   },
   technician: {
     type: String,

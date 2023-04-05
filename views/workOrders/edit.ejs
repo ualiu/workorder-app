@@ -16,8 +16,13 @@
       <input type="hidden" name="_method" value="post">
       <div class="mb-3">
         <input type="hidden" name="customer._id" value="<%= customer._id %>">
-        <label for="title" class="form-label">Title</label>
-        <input type="text" name="title" id="title" class="form-control" value="<%= workOrder.title %>" required>
+        <label for="itemType" class="form-label">Item Type</label>
+        <input type="text" name="itemType" id="itemType" class="form-control" value="<%= workOrder.itemType %>" required>
+      </div>
+      <div class="mb-3">
+        <input type="hidden" name="customer._id" value="<%= customer._id %>">
+        <label for="brand" class="form-label">Brand Type</label>
+        <input type="text" name="brand" id="brand" class="form-control" value="<%= workOrder.brand %>" required>
       </div>
       <div class="mb-3">
         <label for="description" class="form-label">Description</label>
@@ -31,6 +36,7 @@
           <option value="Completed" <%= workOrder.status === 'Completed' ? 'selected' : '' %>>Completed</option>
         </select>
       </div>
+      
       <input type="hidden" name="customer._id" value="<%= customer._id %>">
       <button type="submit" class="btn btn-primary"><i class="fas fa-save me-2"></i>Update Work Order</button>
       <a href="/api/customers" class="btn btn-secondary"><i class="fas fa-arrow-left me-2"></i>Back to All Customers</a>
