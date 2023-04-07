@@ -44,7 +44,7 @@ const workOrderSchema = new mongoose.Schema({
 
 workOrderSchema.pre('save', function (next) {
   if (!this.workOrderNumber) {
-    this.workOrderNumber = Math.floor(Math.random() * 1000) + 1;
+    this.workOrderNumber = Math.floor(Math.random() * 10000) + 1;
   }
   next();
 });

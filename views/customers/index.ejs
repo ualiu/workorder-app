@@ -10,6 +10,7 @@
 <body>
 
   <!-- Add the following HTML to display the pagination links -->
+
   <div class="container mt-5">
     <h1 class="mb-4">Here's your customer list</h1>
     <h2 class="mb-4">There are <%= numOfCustomers %> Customers in your list</h2>
@@ -21,7 +22,7 @@
           <button type="submit" class="btn btn-primary">Search</button>
         </form>
 
-        <div class="d-flex justify-content">
+        <div class="d-flex justify-content-start">
           <a href="/api/customers/new" class="btn btn-success mt-4"><i class="fas fa-plus"></i> Add new customer</a>
           <!-- <a class="btn btn-secondary mt-4" href="/api/customers"><i class="fas fa-bi-people"></i> All customers</a> -->
         </div>
@@ -33,33 +34,33 @@
       <thead>
         <tr>
           <th>Name</th>
-          <th>Email</th>
           <th>Phone</th>
+          <th>Email</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <% for (let i = 0; i < customers.length; i++) { %>
+        <% customers.forEach(customer => { %>
           <tr>
-            <td><%= customers[i].name %></td>
-            <td><%= customers[i].email %></td>
-            <td><%= customers[i].phone %></td>
-            <td>
-              <a href="/api/customers/<%= customers[i]._id %>/show" class="btn btn-primary">View</a>
-              <a href="/api/customers/<%= customers[i]._id %>/edit" class="btn btn-secondary">Edit</a>
-              <form action="/api/customers/<%= customers[i]._id %>?_method=DELETE" method="POST" style="display: inline">
-                <button type="submit" class="btn btn-danger">Delete</button>
+            <td><%= customer.name %></td>
+            <td><%= customer.phone %></td>
+            <td><%= customer.email %></td>
+            <td><a href="/api/workOrders/customers/<%= customer._id %>/work-orders" class="btn btn-primary me-2"><i class="fas fa-eye"></i> Show</a></td>
+            <td><a href="/api/customers/<%= customer._id %>/edit" class="btn btn-warning me-2"><i class="fas fa-edit"></i> Edit</a></td>
+              <td><form action="/api/customers/<%= customer._id %>?_method=DELETE" method="POST" class="d-inline-block">
+                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button></td>
               </form>
             </td>
           </tr>
-        <% } %>
+        <% }) %>
       </tbody>
     </table>
 
-    <div class="d-flex justify-content-evenly">
+    <div class="d-flex justify-content-center">
       <a href="/" class="btn btn-primary mt-4"><i class="fas fa-arrow-left"></i> Main Page</a>
     </div>
     
+    <div class="container mt-4">
     <nav aria-label="Page navigation">
       <ul class="pagination">
         <% for (let i = 1; i <= totalPages; i++) { %>
@@ -69,7 +70,8 @@
         <% } %>
       </ul>
     </nav>
-    
+  </div>
+
   </div>
 
   <!-- Bootstrap JS -->
