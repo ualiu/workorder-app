@@ -1,6 +1,7 @@
 const WorkOrder = require('../models/workOrderModel');
 const Customer = require('../models/customerModel')
 const moment = require('moment');
+const nodemailer = require('nodemailer');
 
 
 exports.getWorkOrdersByCustomerId = async (req, res) => {
@@ -122,11 +123,48 @@ exports.createWorkOrder = async (req, res) => {
       customerId, // use the correct property name
     });
 
+    // send email to customer
+    sendMail(customer, workOrder);
+
     res.redirect(`/api/workOrders/customers/${customerId}/show`);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+
+// function to send email to customer
+const sendMail = (customer, workOrder) => {
+  // create reusable transporter object using the default SMTP transport
+  let transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL_USERNAME,
+      pass: process.env.EMAIL_PASSWORD
+    }
+  });
+
+  // send mail with defined transport object
+  let info = transporter.sendMail({
+    from: process.env.EMAIL_USERNAME, // sender address
+    to: customer.email, // list of receivers
+    subject: 'New Work Order Created', // Subject line
+    html: `
+      <h1>New Work Order Created</h1>
+      <p>A new work order has been created with the following details:</p>
+      <ul>
+        <li>Item Type: ${workOrder.itemType}</li>
+        <li>Brand: ${workOrder.brand}</li>
+        <li>Description: ${workOrder.description}</li>
+        <li>Status: ${workOrder.status}</li>
+        <li>Cost: ${workOrder.cost}</li>
+      </ul>
+    ` // html body
+  });
+
+  console.log('Message sent: %s', info.messageId);
+}
 
 
 
@@ -142,6 +180,11 @@ exports.updateWorkOrder = async (req, res) => {
       workOrder.notes = req.body.notes || workOrder.notes;
 
       const updatedWorkOrder = await workOrder.save();
+      // Send email only when the status is updated to completed
+      if (req.body.status === 'Completed') {
+        const customer = await Customer.findById(updatedWorkOrder.customerId);
+        sendStatusUpdateEmail(customer, updatedWorkOrder);
+      }
       res.redirect(`/api/workOrders/customers/${req.params.customerId}/show`);
     } else {
       res.status(404).json({ message: 'Work order not found' });
@@ -150,6 +193,47 @@ exports.updateWorkOrder = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+const sendStatusUpdateEmail = async (customer, workOrder) => {
+  // create reusable transporter object using the default SMTP transport
+  let transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL_USERNAME,
+      pass: process.env.EMAIL_PASSWORD
+    }
+  });
+
+  // send mail with defined transport object
+  let info = await transporter.sendMail({
+    from: process.env.EMAIL_USERNAME, // sender address
+    to: customer.email, // list of receivers
+    subject: 'Work Order Status Update', // Subject line
+    html: `
+      <h1>Work Order Status Update</h1>
+      <p>Hi ${customer.name}, We just wanted to let you know that we've completed the below work-order:</p>
+      <ul>
+        <li>Work-order #: ${workOrder.workOrderNumber}</li>
+        <li>Item Type: ${workOrder.itemType}</li>
+        <li>Brand: ${workOrder.brand}</li>
+        <li>Description: ${workOrder.description}</li>
+        <li>Status: ${workOrder.status}</li>
+        <li>Cost: ${workOrder.cost}</li>
+      </ul>
+
+      Please stop by anytime Monday - Saturday to pick up your item.
+      
+      We look forward to seeing you soon.
+
+      KWShoeRepair
+    ` // html body
+  });
+
+  console.log('Message sent: %s', info.messageId);
+}
+
 
 exports.deleteWorkOrder = async (req, res) => {
   try {
