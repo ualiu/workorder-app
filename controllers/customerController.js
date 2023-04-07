@@ -2,25 +2,43 @@ const Customer = require('../models/customerModel');
 const WorkOrder = require('../models/workOrderModel');
 const moment = require('moment');
 
+// controllers/customerController.js
+
 exports.getAllCustomers = async (req, res) => {
   try {
-    let numOfCustomers = await Customer.countDocuments({})
+    const PAGE_SIZE = 10; // Number of customers to display per page
+    const page = parseInt(req.query.page || 1); // Current page number
+    const search = req.query.search || '';
+
+    // Build the filter based on the search query
     let filter = {};
-    if (req.query.search) {
+    if (search) {
       filter = {
         $or: [
-          { name: { $regex: req.query.search, $options: 'i' } },
-          { email: { $regex: req.query.search, $options: 'i' } },
-          { phone: { $regex: req.query.search, $options: 'i' } },
+          { name: { $regex: search, $options: 'i' } },
+          { email: { $regex: search, $options: 'i' } },
+          { phone: { $regex: search, $options: 'i' } },
         ]
       };
     }
-    const customers = await Customer.find(filter);
-    res.render('customers/index', { customers, numOfCustomers });
+
+    // Calculate the total number of customers and pages
+    const numOfCustomers = await Customer.countDocuments(filter);
+    const totalPages = Math.ceil(numOfCustomers / PAGE_SIZE);
+
+    // Retrieve the customers for the current page
+    const customers = await Customer.find(filter)
+      .skip((page - 1) * PAGE_SIZE)
+      .limit(PAGE_SIZE);
+
+    // Render the customers/index page with the customers and pagination data
+    res.render('customers/index', { customers, search, currentPage: page, totalPages, numOfCustomers });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+
+
 
 exports.getCustomerById = async (req, res) => {
   console.log(req.params.id); // Add this line to check the value of the ID parameter
