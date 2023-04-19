@@ -78,14 +78,15 @@ exports.showCustomerDetails = async (req, res) => {
 //
 
 
-exports.getAllWorkOrders = async (req, res) => {
+exports.getAllOpenWorkOrders = async (req, res) => {
   try {
-    const workOrders = await WorkOrder.find().populate('customer').populate('technician');
-    res.render('index', { workOrders });
+    const workOrder = await WorkOrder.find({ status: 'Open' }).populate('customerId').exec();
+    res.render('workOrders/allWorkOrders', { workOrder});
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+
 
 exports.getWorkOrderById = async (req, res) => {
   try {
@@ -149,17 +150,27 @@ const sendMail = (customer, workOrder) => {
   let info = transporter.sendMail({
     from: process.env.EMAIL_USERNAME, // sender address
     to: customer.email, // list of receivers
-    subject: 'New Work Order Created', // Subject line
+    subject: '[KWShoeRepair] New Work Order Created', // Subject line
     html: `
-      <h1>New Work Order Created</h1>
-      <p>A new work order has been created with the following details:</p>
+      <h1>Your work order number is: #${workOrder.workOrderNumber}</h1>
+      <h3>Hello <span>${customer.name}</span>,</h3>
+      <p>Thank you so much for your business! We will get started on your repair as soon as possible. 
+      When the repir is completed, we will send you another email notification.
+      In the meantime, if you have any questions, please do not hesitate to message us.
+      We're always happy to help</p>
+
+      <h3>Below are the work order details:</h3>
       <ul>
         <li>Item Type: ${workOrder.itemType}</li>
-        <li>Brand: ${workOrder.brand}</li>
-        <li>Description: ${workOrder.description}</li>
-        <li>Status: ${workOrder.status}</li>
-        <li>Cost: ${workOrder.cost}</li>
+        <li>Item Brand: ${workOrder.brand}</li>
+        <li>Description of the repair: ${workOrder.description}</li>
+        <li>Current Status: ${workOrder.status}</li>
+        <li>Repair Cost: ${workOrder.cost}</li>
       </ul>
+
+      <h3>Regards, <span>KW Shoe Repair</span>,</h3>
+      <p>www.kwshoerepair.com</p>
+      <p>Phone: +519-893-6863</p>
     ` // html body
   });
 
@@ -210,24 +221,25 @@ const sendStatusUpdateEmail = async (customer, workOrder) => {
   let info = await transporter.sendMail({
     from: process.env.EMAIL_USERNAME, // sender address
     to: customer.email, // list of receivers
-    subject: 'Work Order Status Update', // Subject line
+    subject: '[KWShoeRepair] Work Order Status Update', // Subject line
     html: `
-      <h1>Work Order Status Update</h1>
-      <p>Hi ${customer.name}, We just wanted to let you know that we've completed the below work-order:</p>
+      <h1>Your ${workOrder.itemType} are repaired and ready for pickup!</h1>
+      <h3>Hello <span>${customer.name}</span>,</h3> 
+      <p>We wanted to let you know that we've completed the the repair for the below work order:</p>
       <ul>
         <li>Work-order #: ${workOrder.workOrderNumber}</li>
         <li>Item Type: ${workOrder.itemType}</li>
-        <li>Brand: ${workOrder.brand}</li>
-        <li>Description: ${workOrder.description}</li>
+        <li>Item Brand: ${workOrder.brand}</li>
+        <li>Description of the repair: ${workOrder.description}</li>
         <li>Status: ${workOrder.status}</li>
-        <li>Cost: ${workOrder.cost}</li>
+        <li>Repair Cost: ${workOrder.cost}</li>
       </ul>
 
-      Please stop by anytime Monday - Saturday to pick up your item.
+      <p>Please stop by on Saturday between 9am - 7pm to pick up your item.<p>
       
-      We look forward to seeing you soon.
+      <p>We look forward to seeing you soon.</p>
 
-      KWShoeRepair
+      <p>KWShoeRepair</p>
     ` // html body
   });
 
@@ -248,3 +260,11 @@ exports.deleteWorkOrder = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+
+
+
+
+
+
+
