@@ -225,7 +225,7 @@ const sendStatusUpdateEmail = async (customer, workOrder) => {
     html: `
       <h1>Your ${workOrder.itemType} are repaired and ready for pickup!</h1>
       <h3>Hello <span>${customer.name}</span>,</h3> 
-      <p>We wanted to let you know that we've completed the the repair for the below work order:</p>
+      <p>We wanted to let you know that we've completed the repair for the below work order:</p>
       <ul>
         <li>Work-order #: ${workOrder.workOrderNumber}</li>
         <li>Item Type: ${workOrder.itemType}</li>
