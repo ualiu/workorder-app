@@ -14,11 +14,13 @@
 
     <form action="/api/workOrders/customers/<%= customer._id %>/workOrders/<%= workOrder._id %>/edit" method="post">
       <input type="hidden" name="_method" value="post">
+      
       <div class="mb-3">
         <input type="hidden" name="customer._id" value="<%= customer._id %>">
         <label for="itemType" class="form-label">Item Type</label>
         <input type="text" name="itemType" id="itemType" class="form-control" value="<%= workOrder.itemType %>" required>
       </div>
+      
       <div class="mb-3">
         <input type="hidden" name="customer._id" value="<%= customer._id %>">
         <label for="brand" class="form-label">Brand Type</label>

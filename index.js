@@ -15,6 +15,8 @@ app.use(express.json());
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
+app.use(express.static('public'));
+
 const connectToMongoDB = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI, {

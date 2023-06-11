@@ -1,0 +1,23 @@
+body {
+    background: linear-gradient(to right, #1f4037, #99f2c8);
+  }
+
+  nav {
+    background: #1f4037;
+    border-radius: 5px;
+  }
+
+  .nav-link {
+    color: white;
+  }
+
+  .nav-link:hover {
+    color: #99f2c8;
+  }
+
+  h1 {
+    text-align: center;
+    color: #1f4037;
+    padding: 10px;
+    border-bottom: 1px solid #99f2c8;
+  }

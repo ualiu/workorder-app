@@ -20,10 +20,13 @@
     "dotenv": "^16.0.3",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
+    "google": "^2.1.0",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
     "mongoose": "^7.0.3",
     "nodemailer": "^6.9.1",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "oauth20": "^3.0.0",
+    "passport": "^0.6.0"
   }
 }
