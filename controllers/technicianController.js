@@ -3,7 +3,7 @@ const Technician = require('../models/technicianModel');
 exports.getAllTechnicians = async (req, res) => {
   try {
     const technicians = await Technician.find();
-    res.json(technicians);
+    res.render('technicians/index.ejs');
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

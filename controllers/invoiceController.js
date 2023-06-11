@@ -3,7 +3,7 @@ const Invoice = require('../models/invoiceModel');
 exports.getAllInvoices = async (req, res) => {
   try {
     const invoices = await Invoice.find().populate('workOrder technician');
-    res.json(invoices);
+    res.render('invoices/index.ejs');
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
