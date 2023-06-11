@@ -46,7 +46,7 @@
             <td><%= workOrder.description %></td>
             <td><%= workOrder.status %></td>
             <td><a href="/api/workOrders/<%= workOrder._id %>" class="btn btn-primary btn-sm me-2"><i class="fas fa-eye"></i> View</a>
-              <a href="/api/workOrders/<%= workOrder._id %>/edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</a></td>
+            <td><a href="/api/workOrders/<%= workOrder._id %>/edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</a></td></td>
           </tr>
         <% }); %>
       </tbody>
