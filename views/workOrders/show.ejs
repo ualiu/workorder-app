@@ -23,7 +23,12 @@
       <div class="card-footer text-body-secondary">
         <a href="/api/workOrders/<%= workOrder._id %>/edit" class="btn btn-primary"><i class="fas fa-edit"></i> Edit</a>
           <form action="/api/workOrders/<%= workOrder._id %>?_method=DELETE" method="POST" class="d-inline">
-            <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Delete</button>
+            <button type="submit" class="btn btn-danger" onclick="alertMessage()"><i class="fas fa-trash-alt"></i> Delete</button>
+            <script>
+              function alertMessage() {
+                  alert("Sorry this feature doesn't work yet. It will be available soon!");
+              }
+          </script>
           </form>
           <a href="/api/workOrders/customers/<%= customer._id %>/work-orders" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Return to Work Orders</a>
       </div>

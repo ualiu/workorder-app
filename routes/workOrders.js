@@ -3,7 +3,7 @@ const router = express.Router();
 const workOrderController = require('../controllers/workOrderController');
 
 router.get('/:id', workOrderController.getWorkOrderById);
-router.delete('/:id', workOrderController.deleteWorkOrder);
+// router.delete('/:id', workOrderController.deleteWorkOrder);
 router.get('/customers/:id/work-orders', workOrderController.getWorkOrdersByCustomerId);
 router.get('/customers/:customerId/new', workOrderController.displayNewWorkOrderForm);
 router.post('/customers/:customerId/create', workOrderController.createWorkOrder)

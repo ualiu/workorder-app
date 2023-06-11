@@ -50,7 +50,12 @@
               <td>
                 
                 <form action="/api/customers/<%= customer._id %>?_method=DELETE" method="POST" class="d-inline-block">
-                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button></td>
+                <button type="submit" class="btn btn-danger" onclick="alertMessage()"><i class="fas fa-trash"></i> Delete</button>
+                <script>
+                  function alertMessage() {
+                      alert("Sorry this feature doesn't work yet. It will be available soon!");
+                  }
+              </script></td>
               </form>
               
             </td>

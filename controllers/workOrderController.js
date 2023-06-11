@@ -150,7 +150,7 @@ const sendMail = (customer, workOrder) => {
   let info = transporter.sendMail({
     from: process.env.EMAIL_USERNAME, // sender address
     to: customer.email, // list of receivers
-    subject: '[KWShoeRepair] New Work Order Created', // Subject line
+    subject: '[workorderapp] New Work Order Created', // Subject line
     html: `
       <h1>Your work order number is: #${workOrder.workOrderNumber}</h1>
       <h3>Hello <span>${customer.name}</span>,</h3>
@@ -168,9 +168,9 @@ const sendMail = (customer, workOrder) => {
         <li>Repair Cost: ${workOrder.cost}</li>
       </ul>
 
-      <h3>Regards, <span>KW Shoe Repair</span>,</h3>
-      <p>www.kwshoerepair.com</p>
-      <p>Phone: +519-893-6863</p>
+      <h3>Regards, <span>workorderapp</span>,</h3>
+      <p>https://workorderapp.onrender.com/</p>
+      <p>Phone: +519-589-2548</p>
     ` // html body
   });
 
@@ -221,7 +221,7 @@ const sendStatusUpdateEmail = async (customer, workOrder) => {
   let info = await transporter.sendMail({
     from: process.env.EMAIL_USERNAME, // sender address
     to: customer.email, // list of receivers
-    subject: '[KWShoeRepair] Work Order Status Update', // Subject line
+    subject: '[workorderapp] Work Order Status Update', // Subject line
     html: `
       <h1>Your ${workOrder.itemType} are repaired and ready for pickup!</h1>
       <h3>Hello <span>${customer.name}</span>,</h3> 
@@ -239,7 +239,9 @@ const sendStatusUpdateEmail = async (customer, workOrder) => {
       
       <p>We look forward to seeing you soon.</p>
 
-      <p>KWShoeRepair</p>
+      <h3>Regards, <span>workorderapp</span>,</h3>
+      <p>https://workorderapp.onrender.com/</p>
+      <p>Phone: +519-589-2548</p>
     ` // html body
   });
 
